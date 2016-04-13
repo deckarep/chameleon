@@ -62,7 +62,7 @@ MaxWait: 0
 Chameleon's configuration is environment based, and accepts the following ENV variables.
 
 | Variable | Description | Type |
-|-|-|-|
+|----------|-------------|------|
 | `CHAMELEON_MASQUERADE` | the service name to masquerade as | string |
 | `CHAMELEON_PORT` | the port to listen on | integer |
 | `CHAMELEON_HEALTHY` | Is the service healthy? | boolean |
