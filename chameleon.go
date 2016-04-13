@@ -54,6 +54,13 @@ func main() {
 		log.Fatal(err.Error())
 	}
 
+	// Also grab the hostname for later, since it's required in our healthcheck.
+	hostname, err := os.Hostname()
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	log.Println(hostname)
 	// set up a channel to receive signals on.
 	sig := make(chan os.Signal, 1)
 	signal.Notify(sig, syscall.SIGUSR1)
@@ -79,20 +86,17 @@ func main() {
 	// Routes for everyone!
 
 	r.GET("/healthcheck", func(c *gin.Context) {
-		ok_text := ""
-		switch s.Healthy {
-		case true:
-			ok_text = "ok"
-		case false:
-			ok_text = "false"
-		default:
-			panic("s.Healthy isn't set!")
-		}
 		c.JSON(200, gin.H{
+			"host":     hostname,
 			"app_name": s.Masquerade,
-			"healthy":  s.Healthy,
 			"message":  "pong",
-			"results":  gin.H{s.Masquerade: ok_text},
+			"results": gin.H{
+				s.Masquerade: gin.H{
+					"ok": s.Healthy,
+					"message": "null",
+				},
+			},
+		"healthcheck_version": 1,
 		})
 	})
 
