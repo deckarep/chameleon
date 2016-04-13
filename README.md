@@ -52,7 +52,7 @@ log1kal-2.local
 Received USR1 signal
 Masquerade: chameleon
 Port: 8080
-Healthy: false
+Healthy: true
 MinWait: 0
 MaxWait: 0
 [GIN] 2016/04/13 - 14:48:32 | 200 |      40.646µs | ::1 |   GET     /healthcheck
@@ -68,4 +68,4 @@ Chameleon's configuration is environment based, and accepts the following ENV va
 | `CHAMELEON_HEALTHY` | Is the service healthy? | boolean |
 | `CHAMELEON_MINWAIT` | unused | |
 | `CHAMELEON_MAXWAIT` | unused | |
-| `CHAMELEON_VERSION` | What version of the service is runing? | string |
+| `CHAMELEON_VERSION` | What version of the service is running? | string |
