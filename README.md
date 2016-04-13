@@ -57,3 +57,15 @@ MinWait: 0
 MaxWait: 0
 [GIN] 2016/04/13 - 14:48:32 | 200 |      40.646µs | ::1 |   GET     /healthcheck
 ```
+
+# Configuration
+Chameleon's configuration is environment based, and accepts the following ENV variables.
+
+| Variable | Description | Type |
+|-|-|-|
+| `CHAMELEON_MASQUERADE` | the service name to masquerade as | string |
+| `CHAMELEON_PORT` | the port to listen on | integer |
+| `CHAMELEON_HEALTHY` | Is the service healthy? | boolean |
+| `CHAMELEON_MINWAIT` | unused | |
+| `CHAMELEON_MAXWAIT` | unused | |
+| `CHAMELEON_VERSION` | What version of the service is runing? | string |

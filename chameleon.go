@@ -18,6 +18,7 @@ export CHAMELEON_PORT=9999
 export CHAMELEON_HEALTHY=false
 export CHAMELEON_MINWAIT="100ms"
 export CHAMELEON_MAXWAIT="1s"
+export CHAMELEON_VERSION="1.0.0"
 */
 
 type Specification struct {
