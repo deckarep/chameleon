@@ -6,11 +6,11 @@ import (
 	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/kelseyhightower/envconfig"
 	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/martini-contrib/render"
 	"log"
-	"time"
-  "strconv"
-	"os/signal"
 	"os"
+	"os/signal"
+	"strconv"
 	"syscall"
+	"time"
 )
 
 /*
@@ -22,20 +22,20 @@ export CHAMELEON_MAXWAIT="1s"
 */
 
 type Specification struct {
-  // Masquerade: Service name to masquerade as
+	// Masquerade: Service name to masquerade as
 	Masquerade string
 
-  // Port: The port to listen on
-	Port       int
+	// Port: The port to listen on
+	Port int
 
-  // Healthy: Default healthy or not
-	Healthy    bool
+	// Healthy: Default healthy or not
+	Healthy bool
 
-  // MinWait: Minimum time to wait before responding
-	MinWait    time.Duration
+	// MinWait: Minimum time to wait before responding
+	MinWait time.Duration
 
-  // MaxWait: Maximum time to wait before responding
-	MaxWait    time.Duration
+	// MaxWait: Maximum time to wait before responding
+	MaxWait time.Duration
 }
 
 type HealthCheck struct {
@@ -57,12 +57,12 @@ func main() {
 
 	// set up a channel to receive signals on.
 	sig := make(chan os.Signal, 1)
-  signal.Notify(sig, syscall.SIGUSR1)
+	signal.Notify(sig, syscall.SIGUSR1)
 
 	// If we get SIGUSR1, toggle the Healthy state.
 	go func() {
 		for {
-			select{
+			select {
 			case <-sig:
 				log.Println("Received USR1 signal")
 				s.Healthy = !s.Healthy
@@ -74,13 +74,13 @@ func main() {
 		}
 	}()
 
-  // set up the webserver
+	// set up the webserver
 	chameleon := martini.Classic()
 	chameleon.Use(render.Renderer())
 
-  // start on the port we specify rather than the default
-  portformat := ":%s"
-  chameleon.RunOnAddr(fmt.Sprintf(portformat, strconv.Itoa(s.Port)))
+	// start on the port we specify rather than the default
+	portformat := ":%s"
+	chameleon.RunOnAddr(fmt.Sprintf(portformat, strconv.Itoa(s.Port)))
 
 	// start it up!
 	chameleon.Run()
