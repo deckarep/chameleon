@@ -105,6 +105,31 @@ func main() {
 		})
 	})
 
+	r.GET("/traffic_check", func(c *gin.Context) {
+		responseCode := 0
+		switch s.Healthy {
+		case true:
+			responseCode = 200
+		case false:
+			responseCode = 400
+		default:
+			panic("Healthiness couldn't be determined")
+		}
+		c.JSON(responseCode, gin.H{
+			"host":        hostname,
+			"app_name":    s.Masquerade,
+			"app_version": s.Version,
+			"message":     "pong",
+			"results": gin.H{
+				s.Masquerade: gin.H{
+					"ok":      s.Healthy,
+					"message": "null",
+				},
+			},
+			"healthcheck_version": 1,
+		})
+	})
+
 	// start it up!
 	portformat := ":%s"
 	r.Run(fmt.Sprintf(portformat, strconv.Itoa(s.Port)))
