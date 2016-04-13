@@ -2,8 +2,15 @@
 A small service we can use to emulate healthchecks for other services.
 
 # Usage
-By default, chameleon will start a webserver on port 8080. It only responds to GET requests made to `/healthcheck`. It always returns a 200, and will respond with a block of JSON that matches our (sendgrid's) healthcheck v1 format.
+By default, chameleon will start a webserver on port 8080. Chameleon will handle two types of requests:
 
+## Health Checks
+Reachable at `/healthcheck`, will always returns a 200. Normally checked via a Sensu plugin that parses the output to see if something is down enough to page someone.
+
+## Traffic Checks
+Reachable at `/traffic_check`. Returns a 200 if healthy, otherwise returns a 400. Returns the same JSON block as above. Intended for use with load balancers.
+
+# Controlling Health
 If chameleon receives a SIGUSR1, it will flip the "healthiness" of the service.
 
 Here's an example:
