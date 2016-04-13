@@ -2,9 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/go-martini/martini"
+	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/gin-gonic/gin"
 	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/kelseyhightower/envconfig"
-	"github.com/logikal/chameleon/Godeps/_workspace/src/github.com/martini-contrib/render"
 	"log"
 	"os"
 	"os/signal"
@@ -75,14 +74,19 @@ func main() {
 	}()
 
 	// set up the webserver
-	chameleon := martini.Classic()
-	chameleon.Use(render.Renderer())
+	r := gin.Default()
 
-	// start on the port we specify rather than the default
-	portformat := ":%s"
-	chameleon.RunOnAddr(fmt.Sprintf(portformat, strconv.Itoa(s.Port)))
+	// Routes for everyone!
+
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"healthy": s.Healthy,
+			"message": "pong",
+		})
+	})
 
 	// start it up!
-	chameleon.Run()
+	portformat := ":%s"
+	r.Run(fmt.Sprintf(portformat, strconv.Itoa(s.Port)))
 
 }
