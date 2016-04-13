@@ -78,10 +78,21 @@ func main() {
 
 	// Routes for everyone!
 
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/healthcheck", func(c *gin.Context) {
+		ok_text := ""
+		switch s.Healthy {
+		case true:
+			ok_text = "ok"
+		case false:
+			ok_text = "false"
+		default:
+			panic("s.Healthy isn't set!")
+		}
 		c.JSON(200, gin.H{
-			"healthy": s.Healthy,
-			"message": "pong",
+			"app_name": s.Masquerade,
+			"healthy":  s.Healthy,
+			"message":  "pong",
+			"results":  gin.H{s.Masquerade: ok_text},
 		})
 	})
 
